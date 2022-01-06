@@ -67,10 +67,11 @@ export class FileManager {
             let contentFile = reader.result;
             //console.log(contentFile);
 
+            const uncompressedJSON = CJSON.parse(contentFile);
             // logic input
-            if ("logicInput" in JSON.parse(contentFile)) {
+            if ("logicInput" in uncompressedJSON) {
                 for (let i = 0; i < contentFile.length; i++) {
-                    let objectParsed = JSON.parse(contentFile).logicInput[i];
+                    let objectParsed = uncompressedJSON.logicInput[i];
 
                     if (objectParsed == undefined)
                         break;
@@ -83,10 +84,10 @@ export class FileManager {
             }
             // logic output
             //console.log(logicOutput);
-            if ("logicOutput" in JSON.parse(contentFile)) {
+            if ("logicOutput" in uncompressedJSON) {
                 for (let i = 0; i < contentFile.length; i++) {
 
-                    let objectParsed = JSON.parse(contentFile).logicOutput[i];
+                    let objectParsed = uncompressedJSON.logicOutput[i];
 
                     if (objectParsed == undefined)
                         break;
@@ -98,10 +99,10 @@ export class FileManager {
                 }
             }
 
-            if ("logicClock" in JSON.parse(contentFile)) {
+            if ("logicClock" in uncompressedJSON) {
                 for (let i = 0; i < contentFile.length; i++) {
 
-                    let objectParsed = JSON.parse(contentFile).logicClock[i];
+                    let objectParsed = uncompressedJSON.logicClock[i];
 
                     if (objectParsed == undefined)
                         break;
@@ -113,39 +114,39 @@ export class FileManager {
                 }
             }
 
-            if ("gate" in JSON.parse(contentFile)) {
+            if ("gate" in uncompressedJSON) {
                 for (let i = 0; i < contentFile.length; i++) {
 
-                    let objectParsed = JSON.parse(contentFile).gate[i];
+                    let objectParsed = uncompressedJSON.gate[i];
 
                     if (objectParsed == undefined)
                         break;
 
                     console.log(objectParsed);
-                    gate.push(new Gate(JSON.parse(contentFile).gate[i].strType));
+                    gate.push(new Gate(uncompressedJSON.gate[i].strType));
                     Object.assign(gate[i], objectParsed);
                     gate[i].refreshNodes();
                 }
             }
 
-            if ("srLatch" in JSON.parse(contentFile)) {
+            if ("srLatch" in uncompressedJSON) {
                 for (let i = 0; i < contentFile.length; i++) {
 
-                    let objectParsed = JSON.parse(contentFile).srLatch[i];
+                    let objectParsed = uncompressedJSON.srLatch[i];
 
                     if (objectParsed == undefined)
                         break;
 
                     console.log(objectParsed);
 
-                    switch (JSON.parse(contentFile).srLatch[i].type) {
+                    switch (uncompressedJSON.srLatch[i].type) {
                         case IC_type.SR_LATCH_ASYNC:
-                            srLatch.push(new SR_LatchAsync(JSON.parse(contentFile).srLatch[i].gateType,
-                                JSON.parse(contentFile).srLatch[i].stabilize));
+                            srLatch.push(new SR_LatchAsync(uncompressedJSON.srLatch[i].gateType,
+                                uncompressedJSON.srLatch[i].stabilize));
                             break;
                         case IC_type.SR_LATCH_SYNC:
-                            srLatch.push(new SR_LatchSync(JSON.parse(contentFile).srLatch[i].gateType,
-                                JSON.parse(contentFile).srLatch[i].stabilize));
+                            srLatch.push(new SR_LatchSync(uncompressedJSON.srLatch[i].gateType,
+                                uncompressedJSON.srLatch[i].stabilize));
                             break;
                     }
                     Object.assign(srLatch[i], objectParsed);
@@ -153,28 +154,28 @@ export class FileManager {
                 }
             }
 
-            if ("flipflop" in JSON.parse(contentFile)) {
+            if ("flipflop" in uncompressedJSON) {
                 for (let i = 0; i < contentFile.length; i++) {
 
-                    let objectParsed = JSON.parse(contentFile).flipflop[i];
+                    let objectParsed = uncompressedJSON.flipflop[i];
 
                     if (objectParsed == undefined)
                         break;
 
                     console.log(objectParsed);
 
-                    switch (JSON.parse(contentFile).flipflop[i].type) {
+                    switch (uncompressedJSON.flipflop[i].type) {
                         case IC_type.FF_D_SINGLE:
-                            flipflop.push(new FF_D_Single(JSON.parse(contentFile).flipflop[i].type));
+                            flipflop.push(new FF_D_Single(uncompressedJSON.flipflop[i].type));
                             break;
                         case IC_type.FF_D_MASTERSLAVE:
-                            flipflop.push(new FF_D_MasterSlave(JSON.parse(contentFile).flipflop[i].type));
+                            flipflop.push(new FF_D_MasterSlave(uncompressedJSON.flipflop[i].type));
                             break;
                         case IC_type.FF_T:
-                            flipflop.push(new FF_T(JSON.parse(contentFile).flipflop[i].type));
+                            flipflop.push(new FF_T(uncompressedJSON.flipflop[i].type));
                             break;
                         case IC_type.FF_JK:
-                            flipflop.push(new FF_JK(JSON.parse(contentFile).flipflop[i].type));
+                            flipflop.push(new FF_JK(uncompressedJSON.flipflop[i].type));
                             break;
                     }
                     Object.assign(flipflop[i], objectParsed);
@@ -182,9 +183,9 @@ export class FileManager {
                 }
             }
 
-            if ("wire" in JSON.parse(contentFile)) {
+            if ("wire" in uncompressedJSON) {
                 for (let i = 0; i < contentFile.length; i++) {
-                    let objectParsed = JSON.parse(contentFile).wire[i];
+                    let objectParsed = uncompressedJSON.wire[i];
 
                     if (objectParsed == undefined)
                         break;
