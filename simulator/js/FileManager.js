@@ -207,18 +207,15 @@ export class FileManager {
      */
     saveFile(e) {
 
-        let jsonWorkspace = FileManager.getJSON_Workspace();
+        let jsonWorkspace = FileManager.getCompressedJSON();
         let blob = new Blob([jsonWorkspace], { type: 'application/json' });
         saveProjectFile.href = URL.createObjectURL(blob);
         //console.log(jsonWorkspace);
     }
 
-    /**
-     * @todo TODO
-     */
-    static getJSON_Workspace() {
+    static getCompressedJSON() {
         let workspace = new Object();
-
+        
         workspace["logicInput"] = logicInput;
         workspace["logicOutput"] = logicOutput;
         workspace["flipflop"] = flipflop;
@@ -258,7 +255,10 @@ export class FileManager {
 
                 // other things which is not possible to export on JSON
                 return value;
-            }, '\t');
-        return jsonWorkspace;
+            });
+
+        let dynamicObject = JSON.parse(jsonWorkspace);
+        let compressedJSON = CJSON.stringify(dynamicObject);
+        return compressedJSON;    
     }
 }
